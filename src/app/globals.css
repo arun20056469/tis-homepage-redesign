@@ -1,0 +1,84 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---------------------------------------------------------------------------
+   Theme tokens. Values are space-separated RGB channels so Tailwind's
+   `rgb(var(--x) / <alpha-value>)` colours support opacity utilities.
+--------------------------------------------------------------------------- */
+:root {
+  --bg: 247 246 242;
+  --surface: 255 255 255;
+  --content: 16 35 27;
+  --muted: 75 90 82;
+  --line: 228 226 218;
+  --brand: 14 124 90;
+  --brand-dark: 10 92 67;
+  --accent: 193 150 58;
+}
+
+.dark {
+  --bg: 9 14 12;
+  --surface: 18 26 22;
+  --content: 236 242 238;
+  --muted: 155 174 164;
+  --line: 32 44 37;
+  --brand: 29 171 124;
+  --brand-dark: 16 128 93;
+  --accent: 212 178 94;
+}
+
+@layer base {
+  * {
+    @apply border-line;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-bg text-content font-sans antialiased;
+    /* Smooth the colour swap when toggling themes. */
+    transition: background-color 0.4s ease, color 0.4s ease;
+  }
+
+  ::selection {
+    @apply bg-brand/25 text-content;
+  }
+
+  /* Hide the native cursor only on precise pointers where the custom
+     cursor is active; touch devices keep their default behaviour. */
+  @media (hover: hover) and (pointer: fine) {
+    body.has-custom-cursor,
+    body.has-custom-cursor * {
+      cursor: none;
+    }
+  }
+}
+
+@layer components {
+  .container-tis {
+    @apply mx-auto w-full max-w-container px-5 sm:px-6 lg:px-8;
+  }
+
+  .eyebrow {
+    @apply inline-flex items-center gap-2 rounded-full border border-line bg-surface/60 px-3 py-1 text-xs font-medium uppercase tracking-[0.18em] text-brand;
+  }
+
+  .heading-display {
+    @apply font-display font-semibold leading-[1.05] tracking-tight;
+  }
+}
+
+/* Respect users who prefer reduced motion. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
